@@ -2,24 +2,32 @@ package com.learning.blogapp.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import com.google.firebase.Timestamp
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.learning.blogapp.R
-import com.learning.blogapp.data.model.Post
+import com.learning.blogapp.core.Resource
+import com.learning.blogapp.data.remote.HomeScreenDataSource
 import com.learning.blogapp.databinding.FragmentHomeScreenBinding
+import com.learning.blogapp.domain.HomeScreenRepoImpl
+import com.learning.blogapp.presentation.HomeScreenViewModel
+import com.learning.blogapp.presentation.HomeScreenViewModelFactory
 import com.learning.blogapp.ui.home.adapter.HomeScreenAdapter
 
 
 class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
 
     private lateinit var binding: FragmentHomeScreenBinding
+    private val viewModel by viewModels<HomeScreenViewModel>{HomeScreenViewModelFactory(HomeScreenRepoImpl(
+        HomeScreenDataSource()
+    ))}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeScreenBinding.bind(view)
 
+      /*
         val postList = listOf(
             Post(
                 "https://i.pinimg.com/236x/85/99/ea/8599ea1d4454394617df83d48cb0f218.jpg",
@@ -40,8 +48,27 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
                 "https://i.pinimg.com/236x/58/9d/90/589d902a331fa4c6bf3fe9d63c690f61.jpg"
             )
         )
+       */
+        viewModel.fetchLatestPosts().observe(viewLifecycleOwner, Observer {result->
+            when(result){
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
 
-        binding.rvHome.adapter = HomeScreenAdapter(postList)
+                is Resource.Success ->{
+                    binding.progressBar.visibility = View.GONE
+                    binding.rvHome.adapter = HomeScreenAdapter(result.data)
+                }
+
+                is Resource.Failure ->{
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Ocurrió un error: ${result.exception}", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        })
+
+        //binding.rvHome.adapter = HomeScreenAdapter(postList)
 
     }
 }
