@@ -1,4 +1,4 @@
-package com.learning.blogapp.ui.home.adapter
+package com.learning.blogapp.ui.main.adapters
 
 import android.content.Context
 import android.view.LayoutInflater

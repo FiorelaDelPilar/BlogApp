@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeScreenFragment"
-        android:name="com.learning.blogapp.ui.home.HomeScreenFragment"
+        android:name="com.learning.blogapp.ui.main.HomeScreenFragment"
         android:label="fragment_home_screen"
         tools:layout="@layout/fragment_home_screen" />
 </navigation>

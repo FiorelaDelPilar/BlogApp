@@ -1,4 +1,4 @@
-package com.learning.blogapp.ui.home
+package com.learning.blogapp.ui.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,7 +13,7 @@ import com.learning.blogapp.databinding.FragmentHomeScreenBinding
 import com.learning.blogapp.domain.HomeScreenRepoImpl
 import com.learning.blogapp.presentation.HomeScreenViewModel
 import com.learning.blogapp.presentation.HomeScreenViewModelFactory
-import com.learning.blogapp.ui.home.adapter.HomeScreenAdapter
+import com.learning.blogapp.ui.main.adapters.HomeScreenAdapter
 
 
 class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
