@@ -1,4 +1,4 @@
-package com.learning.blogapp.data.remote
+package com.learning.blogapp.data.remote.home
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.learning.blogapp.core.Resource

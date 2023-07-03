@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.learning.blogapp.R
 import com.learning.blogapp.core.Resource
-import com.learning.blogapp.data.remote.HomeScreenDataSource
+import com.learning.blogapp.data.remote.home.HomeScreenDataSource
 import com.learning.blogapp.databinding.FragmentHomeScreenBinding
-import com.learning.blogapp.domain.HomeScreenRepoImpl
+import com.learning.blogapp.domain.home.HomeScreenRepoImpl
 import com.learning.blogapp.presentation.HomeScreenViewModel
 import com.learning.blogapp.presentation.HomeScreenViewModelFactory
 import com.learning.blogapp.ui.main.adapters.HomeScreenAdapter
@@ -19,9 +19,11 @@ import com.learning.blogapp.ui.main.adapters.HomeScreenAdapter
 class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
 
     private lateinit var binding: FragmentHomeScreenBinding
-    private val viewModel by viewModels<HomeScreenViewModel>{HomeScreenViewModelFactory(HomeScreenRepoImpl(
+    private val viewModel by viewModels<HomeScreenViewModel>{HomeScreenViewModelFactory(
+        HomeScreenRepoImpl(
         HomeScreenDataSource()
-    ))}
+    )
+    )}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

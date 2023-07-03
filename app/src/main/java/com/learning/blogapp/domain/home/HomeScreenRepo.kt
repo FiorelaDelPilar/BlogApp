@@ -1,4 +1,4 @@
-package com.learning.blogapp.domain
+package com.learning.blogapp.domain.home
 
 import com.learning.blogapp.core.Resource
 import com.learning.blogapp.data.model.Post
