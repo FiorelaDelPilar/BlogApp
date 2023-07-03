@@ -31,6 +31,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         //firebaseAuth2 = FirebaseAuth.getInstance()
         isUserLoggedIn()
         doLogin()
+        goToSignUpPage()
     }
 
     private fun isUserLoggedIn(){
@@ -45,6 +46,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             val password = binding.editPassword.text.toString().trim()
             validateCredentials(email,password)
             signIn(email,password)
+        }
+    }
+
+    private fun goToSignUpPage(){
+        binding.txtSignup.setOnClickListener{
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 
