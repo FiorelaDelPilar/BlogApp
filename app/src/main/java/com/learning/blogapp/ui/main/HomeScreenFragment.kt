@@ -62,6 +62,12 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
 
                 is Result.Success ->{
                     binding.progressBar.hide()
+                    if(result.data.isEmpty()){
+                        binding.emptyContainer.show()
+                        return@Observer
+                    }else{
+                        binding.emptyContainer.hide()
+                    }
                     binding.rvHome.adapter = HomeScreenAdapter(result.data)
                 }
 
