@@ -7,22 +7,22 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.load.resource.bitmap.BitmapImageDecoderResourceDecoder
 import com.google.firebase.auth.FirebaseAuth
 import com.learning.blogapp.R
-import com.learning.blogapp.core.Resource
-import com.learning.blogapp.data.remote.auth.LoginDataSource
+import com.learning.blogapp.core.Result
+import com.learning.blogapp.data.remote.auth.AuthDataSource
 import com.learning.blogapp.databinding.FragmentLoginBinding
-import com.learning.blogapp.domain.auth.LoginRepoImpl
-import com.learning.blogapp.presentation.auth.LoginScreenViewModel
-import com.learning.blogapp.presentation.auth.LoginScreenViewModelFactory
+import com.learning.blogapp.domain.auth.AuthRepoImpl
+import com.learning.blogapp.presentation.auth.AuthViewModel
+import com.learning.blogapp.presentation.auth.AuthViewModelFactory
+import com.learning.blogapp.utils.*
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var binding:FragmentLoginBinding
     private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
     //private lateinit var firebaseAuth2: FirebaseAuth
-    private val viewmodel by viewModels<LoginScreenViewModel>{LoginScreenViewModelFactory(LoginRepoImpl(
-        LoginDataSource()
+    private val viewmodel by viewModels<AuthViewModel>{AuthViewModelFactory(AuthRepoImpl(
+        AuthDataSource()
     ))}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,8 +42,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun doLogin(){
         binding.btnSignin.setOnClickListener{
-            val email = binding.editTextEmail.text.toString().trim()
-            val password = binding.editPassword.text.toString().trim()
+            val email = binding.editTextEmail.clean()
+            val password = binding.editPassword.clean()
             validateCredentials(email,password)
             signIn(email,password)
         }
@@ -71,11 +71,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         //se va al viewmodel ->repo-> implementación -> data source -> en este datasource se hace login con firebase
         viewmodel.signIn(email, pasword).observe(viewLifecycleOwner, Observer {result->
             when(result){
-                is Resource.Loading -> {
+                is Result.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.btnSignin.isEnabled = false
                 }
-                is Resource.Success -> {
+                is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
                     findNavController().navigate(R.id.action_loginFragment_to_homeScreenFragment)
                     Toast.makeText(
@@ -84,7 +84,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                is Resource.Failure -> {
+                is Result.Failure -> {
                     binding.progressBar.visibility = View.GONE
                     binding.btnSignin.isEnabled = true
                     Toast.makeText(
