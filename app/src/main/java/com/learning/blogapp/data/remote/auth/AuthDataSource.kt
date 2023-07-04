@@ -1,5 +1,6 @@
 package com.learning.blogapp.data.remote.auth
 
+import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,4 +20,8 @@ class AuthDataSource {
         }
         return authResult.user
     }
+
+    suspend fun updateUserProfile(imageBitmap: Bitmap, username: String){
+    }
+
 }
