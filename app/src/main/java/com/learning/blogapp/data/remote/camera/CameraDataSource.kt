@@ -1,9 +1,7 @@
 package com.learning.blogapp.data.remote.camera
 
 import android.graphics.Bitmap
-import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.learning.blogapp.data.model.Post
@@ -25,7 +23,8 @@ class CameraDataSource {
                     profile_picture = it.photoUrl.toString(),
                     profile_name = displayname,
                     post_image = downloadUrl,
-                    post_description = description
+                    post_description = description,
+                    uid = user.uid
                 ))
             }
         }

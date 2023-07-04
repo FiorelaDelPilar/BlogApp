@@ -5,6 +5,6 @@ import com.learning.blogapp.data.remote.camera.CameraDataSource
 
 class CameraRepoImpl(private val dataSoure:CameraDataSource): CameraRepo {
     override suspend fun uploadPhoto(imageBitmap: Bitmap, description: String) {
-
+        dataSoure.uploadPhoto(imageBitmap, description)
     }
 }
