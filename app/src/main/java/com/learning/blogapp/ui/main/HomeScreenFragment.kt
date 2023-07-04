@@ -19,11 +19,13 @@ import com.learning.blogapp.ui.main.adapters.HomeScreenAdapter
 class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
 
     private lateinit var binding: FragmentHomeScreenBinding
-    private val viewModel by viewModels<HomeScreenViewModel>{HomeScreenViewModelFactory(
-        HomeScreenRepoImpl(
-        HomeScreenDataSource()
-    )
-    )}
+    private val viewModel by viewModels<HomeScreenViewModel>{
+        HomeScreenViewModelFactory(
+            HomeScreenRepoImpl(
+            HomeScreenDataSource()
+            )
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

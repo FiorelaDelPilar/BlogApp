@@ -10,21 +10,34 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.navOptions
+import androidx.navigation.ui.setupWithNavController
 import com.google.common.math.BigIntegerMath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.learning.blogapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding:ActivityMainBinding
+
     /*private lateinit var  imageView: ImageView
     private val REQUEST_IMAGE_CAPTURE = 1   */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        //estos val es una forma de solucionar error común por el navhost pero también se podría usar en el xml "fragment" en lugar de "FragmentContainerView" y abajo setupWithNavController(findNavController(R.id.nav_host_fragment))
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bottomNavigationView.setupWithNavController(navController)
+
 
         /*val btnTakePicture = findViewById<Button>(R.id.btn_take_picture)
         imageView = findViewById(R.id.imageView)
