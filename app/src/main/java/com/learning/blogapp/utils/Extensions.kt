@@ -12,6 +12,6 @@ fun TextInputEditText.errors() {
     }
 }
 
-fun View.hide(){ this.hide() }
+fun View.hide(){ this.visibility = View.GONE }
 
-fun View.show(){ this.show() }
+fun View.show(){ this.visibility = View.VISIBLE }

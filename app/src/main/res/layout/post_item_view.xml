@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_margin="8dp">
+        android:layout_marginBottom="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_picture"
@@ -39,4 +40,13 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         tools:background="@mipmap/ic_launcher_round"/>
+
+    <TextView
+        android:id="@+id/post_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="This is a photo description"
+        android:layout_marginTop="8dp"
+        android:maxLines="4"
+        android:ellipsize="end"/>
 </LinearLayout>
