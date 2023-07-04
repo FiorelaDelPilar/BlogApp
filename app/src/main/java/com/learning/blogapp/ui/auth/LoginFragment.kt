@@ -72,11 +72,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewmodel.signIn(email, pasword).observe(viewLifecycleOwner, Observer {result->
             when(result){
                 is Result.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.show()
                     binding.btnSignin.isEnabled = false
                 }
                 is Result.Success -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
                     findNavController().navigate(R.id.action_loginFragment_to_homeScreenFragment)
                     Toast.makeText(
                         requireContext(),
@@ -85,7 +85,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     ).show()
                 }
                 is Result.Failure -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
                     binding.btnSignin.isEnabled = true
                     Toast.makeText(
                         requireContext(),

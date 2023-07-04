@@ -1,30 +1,17 @@
 package com.learning.blogapp
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
-import com.google.common.math.BigIntegerMath
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.learning.blogapp.databinding.ActivityMainBinding
-import kotlinx.coroutines.tasks.await
-import java.io.ByteArrayOutputStream
-import java.util.*
+import com.learning.blogapp.utils.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityMainBinding
+    private lateinit var navController:NavController
 
     /*private lateinit var  imageView: ImageView
     private val REQUEST_IMAGE_CAPTURE = 1   */
@@ -35,9 +22,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //estos val es una forma de solucionar error común por el navhost pero también se podría usar en el xml "fragment" en lugar de "FragmentContainerView" y abajo setupWithNavController(findNavController(R.id.nav_host_fragment))
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
-
+        observeDestinationChange()
 
         /*val btnTakePicture = findViewById<Button>(R.id.btn_take_picture)
         imageView = findViewById(R.id.imageView)
@@ -129,7 +116,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }*/
+
+    private fun observeDestinationChange(){
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id){
+                R.id.loginFragment ->{
+                    binding.bottomNavigationView.hide()
+                }
+                R.id.registerFragment ->{
+                    binding.bottomNavigationView.hide()
+                }
+                else->{
+                    binding.bottomNavigationView.show()
+                }
+            }
+        }
+    }
 }
+
 
 //data class Ciudad(val population: Int=0, val color:String="", val pc:Int = 0, val imageUrl: String = "")
 

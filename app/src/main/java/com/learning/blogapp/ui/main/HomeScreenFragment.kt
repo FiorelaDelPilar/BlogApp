@@ -14,6 +14,7 @@ import com.learning.blogapp.domain.home.HomeScreenRepoImpl
 import com.learning.blogapp.presentation.HomeScreenViewModel
 import com.learning.blogapp.presentation.HomeScreenViewModelFactory
 import com.learning.blogapp.ui.main.adapters.HomeScreenAdapter
+import com.learning.blogapp.utils.*
 
 
 class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
@@ -56,16 +57,16 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
         viewModel.fetchLatestPosts().observe(viewLifecycleOwner, Observer {result->
             when(result){
                 is Result.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.show()
                 }
 
                 is Result.Success ->{
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
                     binding.rvHome.adapter = HomeScreenAdapter(result.data)
                 }
 
                 is Result.Failure ->{
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
                     Toast.makeText(requireContext(), "Ocurrió un error: ${result.exception}", Toast.LENGTH_SHORT).show()
                 }
 

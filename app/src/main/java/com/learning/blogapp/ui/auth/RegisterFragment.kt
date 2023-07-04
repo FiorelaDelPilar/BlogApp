@@ -1,20 +1,14 @@
 package com.learning.blogapp.ui.auth
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
 import com.learning.blogapp.R
 import com.learning.blogapp.data.remote.auth.AuthDataSource
-import com.learning.blogapp.databinding.FragmentLoginBinding
 import com.learning.blogapp.databinding.FragmentRegisterBinding
 import com.learning.blogapp.domain.auth.AuthRepoImpl
 import com.learning.blogapp.presentation.auth.AuthViewModel
@@ -56,15 +50,15 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         viewmodel.signUp(email,password,username).observe(viewLifecycleOwner, Observer {result->
             when(result){
                 is Result.Loading ->{
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.show()
                     binding.btnSignup.isEnabled = false
                 }
                 is Result.Success ->{
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
                     findNavController().navigate(R.id.action_registerFragment_to_homeScreenFragment)
                 }
                 is Result.Failure ->{
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
                     binding.btnSignup.isEnabled = true
                     Toast.makeText(requireContext(),"Error:${result.exception}", Toast.LENGTH_SHORT).show()
                 }
@@ -74,7 +68,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     }
 
     private fun validateUserData(password: String, passwordConfirm: String, username: String, email: String): Boolean {
-        if (!password.equals(passwordConfirm)) {
+        if (password != passwordConfirm) {
             binding.editTextPassword.error = "Password does not match"
             binding.editTextConfirmPassword.error = "Password does not match"
             return true
