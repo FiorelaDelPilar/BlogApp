@@ -8,16 +8,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.learning.blogapp.R
 import com.learning.blogapp.core.Result
+import com.learning.blogapp.data.model.Post
 import com.learning.blogapp.data.remote.home.HomeScreenDataSource
 import com.learning.blogapp.databinding.FragmentHomeScreenBinding
 import com.learning.blogapp.domain.home.HomeScreenRepoImpl
 import com.learning.blogapp.presentation.HomeScreenViewModel
 import com.learning.blogapp.presentation.HomeScreenViewModelFactory
 import com.learning.blogapp.ui.main.adapters.HomeScreenAdapter
+import com.learning.blogapp.ui.main.adapters.OnPostClickListener
 import com.learning.blogapp.utils.*
 
 
-class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
+class HomeScreenFragment : Fragment(R.layout.fragment_home_screen), OnPostClickListener {
 
     private lateinit var binding: FragmentHomeScreenBinding
     private val viewModel by viewModels<HomeScreenViewModel>{
@@ -68,7 +70,7 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
                     }else{
                         binding.emptyContainer.hide()
                     }
-                    binding.rvHome.adapter = HomeScreenAdapter(result.data)
+                    binding.rvHome.adapter = HomeScreenAdapter(result.data, this)
                 }
 
                 is Result.Failure ->{
@@ -81,5 +83,8 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen) {
 
         //binding.rvHome.adapter = HomeScreenAdapter(postList)
 
+    }
+
+    override fun onLikeButtonClick(post: Post, liked: Boolean) {
     }
 }
