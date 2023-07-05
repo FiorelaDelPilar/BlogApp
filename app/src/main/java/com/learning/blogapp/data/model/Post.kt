@@ -1,14 +1,24 @@
 package com.learning.blogapp.data.model
 
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
 data class Post(
-    val profile_picture: String = "",
-    val profile_name: String = "",
+    @Exclude @JvmField
+    val id: String = "",
     @ServerTimestamp
     var created_at: Date? = null,
     val post_image: String = "",
     val post_description: String = "",
-    val uid: String = ""
+    val poster: Poster? = null,
+    val likes: Long = 0,
+    @Exclude @JvmField
+    val liked: Boolean = false
+)
+
+data class Poster(
+    val username: String? = "",
+    val uid: String? = null,
+    val profile_picture: String = ""
 )
