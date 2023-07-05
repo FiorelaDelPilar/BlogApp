@@ -6,8 +6,6 @@ import androidx.lifecycle.liveData
 import com.learning.blogapp.core.Result
 import com.learning.blogapp.domain.home.HomeScreenRepo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import java.lang.Exception
 
 class HomeScreenViewModel(private val repo: HomeScreenRepo): ViewModel() {
@@ -15,10 +13,8 @@ class HomeScreenViewModel(private val repo: HomeScreenRepo): ViewModel() {
         emit(Result.Loading())
         kotlin.runCatching {
             repo.getLatestPosts()
-        }.onSuccess {flowList->
-            flowList.collect {
-                emit(it)
-            }
+        }.onSuccess {postList->
+            emit(postList)
         }.onFailure {
             emit(Result.Failure(Exception(it.message)))
         }
