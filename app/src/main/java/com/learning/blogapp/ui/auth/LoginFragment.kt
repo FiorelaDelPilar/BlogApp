@@ -46,6 +46,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun doLogin(){
         binding.btnSignin.setOnClickListener{
+            it.hideKeayboard()
             val email = binding.editTextEmail.clean()
             val password = binding.editPassword.clean()
             validateCredentials(email,password)
