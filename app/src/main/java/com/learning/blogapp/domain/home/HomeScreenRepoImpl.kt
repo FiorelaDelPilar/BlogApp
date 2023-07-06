@@ -7,4 +7,5 @@ import com.learning.blogapp.data.remote.home.HomeScreenDataSource
 class HomeScreenRepoImpl(private val dataSoure: HomeScreenDataSource) : HomeScreenRepo {
     //Encargado de conectar el datasource que es de donde vienen los datos para retornar ese valor
     override suspend fun getLatestPosts(): Result<List<Post>> = dataSoure.getLatestPosts()
+    override suspend fun registerLikeButtonState(postId: String, liked: Boolean) =dataSoure.registerLikeButtonState(postId, liked)
 }
