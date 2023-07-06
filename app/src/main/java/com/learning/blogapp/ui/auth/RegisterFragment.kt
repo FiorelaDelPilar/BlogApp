@@ -46,24 +46,28 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         }
     }
 
-    private fun createUser(email: String, password: String, username: String) {
-        viewmodel.signUp(email,password,username).observe(viewLifecycleOwner, Observer {result->
-            when(result){
-                is Result.Loading ->{
+    private fun createUser(email: String, password: String, fullname: String) {
+        viewmodel.signUp(email,password,fullname).observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Loading -> {
                     binding.progressBar.show()
                     binding.btnSignup.isEnabled = false
                 }
-                is Result.Success ->{
+                is Result.Success -> {
                     binding.progressBar.hide()
                     findNavController().navigate(R.id.action_registerFragment_to_setupProfileFragment)
                 }
-                is Result.Failure ->{
+                is Result.Failure -> {
                     binding.progressBar.hide()
                     binding.btnSignup.isEnabled = true
-                    Toast.makeText(requireContext(),"Error:${result.exception}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Error:${result.exception}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-        })
+        }
 
     }
 
