@@ -40,9 +40,11 @@ class HomeScreenFragment : Fragment(R.layout.fragment_home_screen), OnPostClickL
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeScreenBinding.bind(view)
 
+        viewModel.fetchPosts()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.latestPosts.collect { result ->
+                // viewModel.latestPosts.collect { result ->
+                viewModel.getPosts().collect { result ->
                     when (result) {
                         is Result.Loading -> {
                             binding.progressBar.show()

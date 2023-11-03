@@ -8,10 +8,8 @@ import com.learning.blogapp.core.Result
 import com.learning.blogapp.data.model.Post
 import com.learning.blogapp.domain.home.HomeScreenRepo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class HomeScreenViewModel(private val repo: HomeScreenRepo) : ViewModel() {
@@ -38,7 +36,7 @@ class HomeScreenViewModel(private val repo: HomeScreenRepo) : ViewModel() {
             }
         }
 
-    val latestPosts : StateFlow<Result<List<Post>>> = flow {
+    val latestPosts: StateFlow<Result<List<Post>>> = flow {
         kotlin.runCatching {
             repo.getLatestPosts()
         }.onSuccess { resultPostList ->
@@ -51,6 +49,19 @@ class HomeScreenViewModel(private val repo: HomeScreenRepo) : ViewModel() {
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = Result.Loading()
     )
+
+    private val posts = MutableStateFlow<Result<List<Post>>>(Result.Loading())
+    fun fetchPosts() = viewModelScope.launch {
+        kotlin.runCatching {
+            repo.getLatestPosts()
+        }.onSuccess { resultPostList ->
+            posts.value = resultPostList
+        }.onFailure { throwable ->
+            posts.value = Result.Failure(Exception(throwable))
+        }
+    }
+
+    fun getPosts(): StateFlow<Result<List<Post>>> = posts
 }
 
 class HomeScreenViewModelFactory(private val repo: HomeScreenRepo) : ViewModelProvider.Factory {
